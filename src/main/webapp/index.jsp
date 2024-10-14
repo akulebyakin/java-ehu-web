@@ -8,7 +8,6 @@
 <h1><%= "Hello World!" %>
 </h1>
 <br/>
-<a href="hello-servlet">Hello Servlet</a>
 <a href="users">User List</a>
 <form name="send" action="${pageContext.request.contextPath}/hello-servlet" method="get">
     <label>

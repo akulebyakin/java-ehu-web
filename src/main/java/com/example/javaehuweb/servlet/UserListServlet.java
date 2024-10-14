@@ -38,7 +38,7 @@ public class UserListServlet extends HttpServlet {
         userListHtml.append("</ul>");
 
         request.setAttribute("users", userListHtml.toString());
-        request.getRequestDispatcher("userList.jsp").forward(request, response);
+        request.getRequestDispatcher("/jsp/userList.jsp").forward(request, response);
     }
 
     public void destroy() {

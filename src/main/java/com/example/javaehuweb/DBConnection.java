@@ -16,7 +16,7 @@ public class DBConnection {
     private static Connection connection = null;
 
     public static Connection getConnection() {
-        if (connection != null) {
+        if (connection != null && !connectionIsClosed()) {
             return connection;
         }
 
@@ -29,17 +29,28 @@ public class DBConnection {
             Properties prop = new Properties();
             prop.load(input);
 
+            Class.forName("org.postgresql.Driver");
+
             connection = DriverManager.getConnection(
                     prop.getProperty("db.url"),
                     prop.getProperty("db.user"),
                     prop.getProperty("db.password")
             );
-        } catch (SQLException | IOException e) {
-            log.error("Error connecting to the database: {}", e.getMessage());
+        } catch (SQLException | IOException | ClassNotFoundException e) {
+            log.error("Error: {}", e.getMessage());
             throw new RuntimeException(e);
         }
 
         return connection;
+    }
+
+    private static boolean connectionIsClosed() {
+        try {
+            return connection.isClosed();
+        } catch (SQLException e) {
+            log.error("Error checking if the connection is closed: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 
     public static void closeConnection() {
