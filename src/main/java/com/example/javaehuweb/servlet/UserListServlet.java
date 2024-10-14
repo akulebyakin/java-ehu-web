@@ -1,24 +1,33 @@
 package com.example.javaehuweb.servlet;
 
 import com.example.javaehuweb.dao.UserDao;
+import com.example.javaehuweb.dao.impl.UserDaoImpl;
 import com.example.javaehuweb.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "userListServlet", value = "/users")
 public class UserListServlet extends HttpServlet {
+    private static final Logger log = LogManager.getLogger();
+    private final UserDao userDaoImpl = new UserDaoImpl();
 
-    private final UserDao userDao = new UserDao();
+    @Override
+    public void init() {
+        log.debug("Servlet {} has started.", this.getServletName());
+    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<User> users = userDao.getAllUsers();
+        log.debug("GET request received");
+        List<User> users = userDaoImpl.findAllUsers();
         StringBuilder userListHtml = new StringBuilder();
 
         userListHtml.append("<ul>");
@@ -39,8 +48,10 @@ public class UserListServlet extends HttpServlet {
 
         request.setAttribute("users", userListHtml.toString());
         request.getRequestDispatcher("/jsp/userList.jsp").forward(request, response);
+        log.debug("GET request processed");
     }
 
+    @Override
     public void destroy() {
     }
 }

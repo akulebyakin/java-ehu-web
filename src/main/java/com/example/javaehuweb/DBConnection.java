@@ -16,6 +16,7 @@ public class DBConnection {
     private static Connection connection = null;
 
     public static Connection getConnection() {
+        log.debug("Getting database connection");
         if (connection != null && !connectionIsClosed()) {
             return connection;
         }
@@ -36,6 +37,7 @@ public class DBConnection {
                     prop.getProperty("db.user"),
                     prop.getProperty("db.password")
             );
+            log.debug("Database connection established");
         } catch (SQLException | IOException | ClassNotFoundException e) {
             log.error("Error: {}", e.getMessage());
             throw new RuntimeException(e);
