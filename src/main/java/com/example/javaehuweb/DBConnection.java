@@ -45,6 +45,9 @@ public class DBConnection {
     }
 
     private static boolean connectionIsClosed() {
+        if (connection == null) {
+            return true;
+        }
         try {
             return connection.isClosed();
         } catch (SQLException e) {
