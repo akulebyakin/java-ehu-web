@@ -17,7 +17,7 @@ public class DBConnection {
 
     public static Connection getConnection() {
         log.debug("Getting database connection");
-        if (connection != null && !connectionIsClosed()) {
+        if (connection != null && !isConnectionClosed()) {
             return connection;
         }
 
@@ -46,7 +46,7 @@ public class DBConnection {
         return connection;
     }
 
-    private static boolean connectionIsClosed() {
+    private static boolean isConnectionClosed() {
         if (connection == null) {
             return true;
         }

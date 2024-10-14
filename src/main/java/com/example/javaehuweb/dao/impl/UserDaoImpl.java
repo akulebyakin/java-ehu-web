@@ -16,15 +16,15 @@ import java.util.Objects;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger log = LogManager.getLogger();
+    private static final String SQL_GET_ALL_USERS = "SELECT u.id, u.name, u.email FROM users u";
 
     @Override
     public List<User> findAllUsers() {
         log.info("Getting all users from the database");
-        String query = "SELECT * FROM users";
         List<User> users = new ArrayList<>();
 
         try (Connection connection = DBConnection.getConnection();
-             PreparedStatement preparedStatement = Objects.requireNonNull(connection).prepareStatement(query)) {
+             PreparedStatement preparedStatement = Objects.requireNonNull(connection).prepareStatement(SQL_GET_ALL_USERS)) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

@@ -1,8 +1,8 @@
 package com.example.javaehuweb.servlet;
 
-import com.example.javaehuweb.dao.UserDao;
-import com.example.javaehuweb.dao.impl.UserDaoImpl;
 import com.example.javaehuweb.model.User;
+import com.example.javaehuweb.service.UserService;
+import com.example.javaehuweb.service.impl.UserServiceImpl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,7 +17,7 @@ import java.util.List;
 @WebServlet(name = "userListServlet", value = "/users")
 public class UserListServlet extends HttpServlet {
     private static final Logger log = LogManager.getLogger();
-    private final UserDao userDaoImpl = new UserDaoImpl();
+    private final UserService userService = new UserServiceImpl();
 
     @Override
     public void init() {
@@ -27,7 +27,7 @@ public class UserListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         log.debug("GET request received");
-        List<User> users = userDaoImpl.findAllUsers();
+        List<User> users = userService.findAllUsers();
         StringBuilder userListHtml = new StringBuilder();
 
         userListHtml.append("<ul>");
