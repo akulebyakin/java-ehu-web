@@ -99,4 +99,31 @@ public class ConnectionPool {
             throw new RuntimeException(e);
         }
     }
+
+    public void closeAllConnections() {
+        closeConnections(freeConnections);
+        closeConnections(usedConnections);
+    }
+
+    private void closeConnections(BlockingQueue<Connection> connections) {
+        for (Connection connection : connections) {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    log.error("Failed to close a connection", e);
+                }
+            }
+        }
+    }
+
+    public void deregisterDrivers() {
+        DriverManager.getDrivers().asIterator().forEachRemaining(driver -> {
+            try {
+                DriverManager.deregisterDriver(driver);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }

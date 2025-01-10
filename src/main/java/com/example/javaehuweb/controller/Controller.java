@@ -2,6 +2,7 @@ package com.example.javaehuweb.controller;
 
 import com.example.javaehuweb.controller.command.Command;
 import com.example.javaehuweb.controller.command.CommandType;
+import com.example.javaehuweb.dao.connection.ConnectionPool;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -46,6 +47,11 @@ public class Controller extends HttpServlet {
         request.getRequestDispatcher(page).forward(request, response);
     }
 
+    @Override
     public void destroy() {
+        log.debug("Servlet {} is being destroyed.", this.getServletName());
+        ConnectionPool.getInstance().closeAllConnections();
+        ConnectionPool.getInstance().deregisterDrivers();
+        log.debug("Servlet {} has been destroyed.", this.getServletName());
     }
 }

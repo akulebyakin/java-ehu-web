@@ -5,7 +5,17 @@
 </head>
 <body>
 <form method="post" action="${pageContext.request.contextPath}/controller">
-    <input type="hidden" name="command" value="login">
+    <input type="hidden" name="command" value="registration">
+    Name: <br/>
+    <label>
+        <input type="text" name="username" placeholder="Name">
+    </label>
+    <br/>
+    Email: <br/>
+    <label>
+        <input type="email" name="email" placeholder="Email">
+    </label>
+    <br/>
     Login: <br/>
     <label>
         <input type="text" name="login" placeholder="Login">
@@ -16,15 +26,11 @@
         <input type="password" name="password" placeholder="Password">
     </label>
     <br/>
-        ${errorLoginPasswordMessage}
+        ${errorRegistrationMessage}
     <br/>
-        ${successfulRegistrationMessage}
-    <br/>
-        ${nullPageMessage}
-    <br/>
-    <input type="submit" value="Login">
-    <br />
-    <a href="${pageContext.request.contextPath}/jsp/registration.jsp">Registration</a>
+    <input type="submit" value="Register">
 </form>
+<br />
+<a href="${pageContext.request.contextPath}/jsp/login.jsp">Return back</a>
 </body>
 </html>

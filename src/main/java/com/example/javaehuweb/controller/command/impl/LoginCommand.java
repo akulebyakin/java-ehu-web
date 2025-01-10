@@ -1,5 +1,7 @@
-package com.example.javaehuweb.controller.command;
+package com.example.javaehuweb.controller.command.impl;
 
+import com.example.javaehuweb.controller.command.Command;
+import com.example.javaehuweb.controller.command.PageConstants;
 import com.example.javaehuweb.exception.CommandException;
 import com.example.javaehuweb.exception.ServiceException;
 import com.example.javaehuweb.service.UserService;
@@ -10,8 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 public class LoginCommand implements Command {
     private static final Logger log = LogManager.getLogger(LoginCommand.class);
-    private static final String MAIN_PAGE = "/jsp/main.jsp";
-    private static final String LOGIN_PAGE = "/jsp/login.jsp";
     private final UserService userService = new UserServiceImpl();
 
     @Override
@@ -22,10 +22,10 @@ public class LoginCommand implements Command {
         try {
             if (userService.authenticate(login, password)) {
                 request.setAttribute("user", login);
-                return MAIN_PAGE;
+                return PageConstants.MAIN_PAGE;
             } else {
                 request.setAttribute("errorLoginPasswordMessage", "Incorrect login or password");
-                return LOGIN_PAGE;
+                return PageConstants.LOGIN_PAGE;
             }
         } catch (ServiceException e) {
             log.error("Error authenticating user", e);
