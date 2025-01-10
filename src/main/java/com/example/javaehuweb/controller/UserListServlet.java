@@ -39,6 +39,8 @@ public class UserListServlet extends HttpServlet {
                         .append(user.getName())
                         .append(", Email: ")
                         .append(user.getEmail())
+                        .append(", Role: ")
+                        .append(user.getRole())
                         .append("</li>");
             }
         } else {

@@ -6,4 +6,6 @@ public interface PageConstants {
     String MAIN_PAGE = "/jsp/main.jsp";
     String LOGIN_PAGE = "/jsp/login.jsp";
     String REGISTRATION_PAGE = "/jsp/registration.jsp";
+    String REGISTER_NEW_COFFEESHOP_PAGE = "/jsp/register_new_coffeeshop.jsp";
+    String LIST_COFFEESHOPS_PAGE = "/jsp/list_coffeeshops.jsp";
 }

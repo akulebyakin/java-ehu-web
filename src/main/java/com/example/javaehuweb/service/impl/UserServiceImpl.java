@@ -5,6 +5,7 @@ import com.example.javaehuweb.dao.impl.UserDaoImpl;
 import com.example.javaehuweb.exception.DaoException;
 import com.example.javaehuweb.exception.ServiceException;
 import com.example.javaehuweb.model.User;
+import com.example.javaehuweb.model.enums.UserRole;
 import com.example.javaehuweb.service.UserService;
 import com.example.javaehuweb.service.validator.UserValidator;
 import com.example.javaehuweb.service.validator.impl.UserValidatorImpl;
@@ -47,11 +48,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean register(String name, String email, String login, String password) {
+    public boolean register(String name, String email, String login, String password, UserRole role) {
         try {
             validateNewUser(name, email, login, password);
             String encryptedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
-            User user = new User(name, email, login, encryptedPassword);
+            User user = new User(name, email, login, encryptedPassword, role);
             userDao.saveUser(user);
             log.debug("User registered successfully");
             return true;
@@ -74,13 +75,13 @@ public class UserServiceImpl implements UserService {
         if (!userValidator.isValidPassword(password)) {
             throw new ServiceException("Invalid password format. Password must be at least 3 characters long, contain only letters and digits");
         }
-        if (findByUsername(login).isPresent()) {
+        if (findUserByLogin(login).isPresent()) {
             throw new ServiceException("User with this login already exists");
         }
     }
 
     @Override
-    public Optional<User> findByUsername(String login) {
+    public Optional<User> findUserByLogin(String login) {
         try {
             return userDao.findUserByLogin(login);
         } catch (DaoException e) {

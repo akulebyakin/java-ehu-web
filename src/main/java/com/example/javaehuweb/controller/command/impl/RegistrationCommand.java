@@ -4,6 +4,7 @@ import com.example.javaehuweb.controller.command.Command;
 import com.example.javaehuweb.controller.command.PageConstants;
 import com.example.javaehuweb.exception.CommandException;
 import com.example.javaehuweb.exception.ServiceException;
+import com.example.javaehuweb.model.enums.UserRole;
 import com.example.javaehuweb.service.UserService;
 import com.example.javaehuweb.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class RegistrationCommand implements Command {
         String password = request.getParameter("password");
 
         try {
-            if (userService.register(username, email, login, password)) {
+            if (userService.register(username, email, login, password, UserRole.USER)) {
                 request.setAttribute("successfulRegistrationMessage", "User " + username + " registered successfully");
                 return PageConstants.LOGIN_PAGE;
             } else {

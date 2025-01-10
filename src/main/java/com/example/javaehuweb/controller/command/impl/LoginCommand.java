@@ -4,6 +4,7 @@ import com.example.javaehuweb.controller.command.Command;
 import com.example.javaehuweb.controller.command.PageConstants;
 import com.example.javaehuweb.exception.CommandException;
 import com.example.javaehuweb.exception.ServiceException;
+import com.example.javaehuweb.model.User;
 import com.example.javaehuweb.service.UserService;
 import com.example.javaehuweb.service.impl.UserServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +22,9 @@ public class LoginCommand implements Command {
 
         try {
             if (userService.authenticate(login, password)) {
-                request.setAttribute("user", login);
+                User user = userService.findUserByLogin(login).orElseThrow(() -> new CommandException("User not found"));
+                request.setAttribute("username", user.getName());
+                request.setAttribute("role", user.getRole().name());
                 return PageConstants.MAIN_PAGE;
             } else {
                 request.setAttribute("errorLoginPasswordMessage", "Incorrect login or password");

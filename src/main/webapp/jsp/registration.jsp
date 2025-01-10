@@ -31,6 +31,6 @@
     <input type="submit" value="Register">
 </form>
 <br />
-<a href="${pageContext.request.contextPath}/jsp/login.jsp">Return back</a>
+<a href="${pageContext.request.contextPath}/jsp/login.jsp">Return back to Login</a>
 </body>
 </html>

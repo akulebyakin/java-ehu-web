@@ -4,6 +4,7 @@ import com.example.javaehuweb.dao.UserDao;
 import com.example.javaehuweb.dao.connection.ConnectionPool;
 import com.example.javaehuweb.exception.DaoException;
 import com.example.javaehuweb.model.User;
+import com.example.javaehuweb.model.enums.UserRole;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,10 +18,10 @@ import java.util.Optional;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger log = LogManager.getLogger();
-    private static final String SQL_SELECT_ALL_USERS = "SELECT id, name, email FROM users";
+    private static final String SQL_SELECT_ALL_USERS = "SELECT id, name, email, role FROM users";
     private static final String SQL_SELECT_PASSWORD = "SELECT password FROM users WHERE login = ?";
-    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT id, name, email, login FROM users WHERE login = ?";
-    private static final String SQL_SAVE_USER = "INSERT INTO users (name, email, login, password) VALUES (?, ?, ?, ?)";
+    private static final String SQL_SELECT_USER_BY_LOGIN = "SELECT id, name, email, login, role FROM users WHERE login = ?";
+    private static final String SQL_SAVE_USER = "INSERT INTO users (name, email, login, password, role) VALUES (?, ?, ?, ?, ?)";
 
     @Override
     public List<User> findAllUsers() throws DaoException {
@@ -34,6 +35,7 @@ public class UserDaoImpl implements UserDao {
                 user.setId(resultSet.getInt("id"));
                 user.setName(resultSet.getString("name"));
                 user.setEmail(resultSet.getString("email"));
+                user.setRole(UserRole.getRole(resultSet.getString("role")));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -73,6 +75,7 @@ public class UserDaoImpl implements UserDao {
                 user.setName(resultSet.getString("name"));
                 user.setEmail(resultSet.getString("email"));
                 user.setLogin(resultSet.getString("login"));
+                user.setRole(UserRole.getRole(resultSet.getString("role")));
                 return Optional.of(user);
             }
         } catch (SQLException e) {
@@ -91,6 +94,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getLogin());
             preparedStatement.setString(4, user.getEncryptedPassword());
+            preparedStatement.setString(5, user.getRole().name());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             log.error("Error saving user: {}", e.getMessage());
