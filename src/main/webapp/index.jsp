@@ -2,18 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>JSP - Hello World</title>
+    <title>EHU Web Application</title>
 </head>
 <body>
-<h1><%= "Hello World!" %>
-</h1>
-<br/>
-<a href="users">User List</a>
-<form name="send" action="${pageContext.request.contextPath}/hello-servlet" method="get">
-    <label>
-        <input type="text" name="number" value="" />
-    </label>
-    <button type="submit" name="submit">Send</button>
-</form>
+<jsp:forward page="/jsp/login.jsp"/>
 </body>
 </html>

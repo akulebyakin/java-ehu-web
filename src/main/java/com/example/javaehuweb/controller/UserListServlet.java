@@ -1,4 +1,4 @@
-package com.example.javaehuweb.servlet;
+package com.example.javaehuweb.controller;
 
 import com.example.javaehuweb.model.User;
 import com.example.javaehuweb.service.UserService;

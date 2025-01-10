@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>User List</h1>
-
+<%--use JSPL!--%>
 ${users}
 
 </body>
