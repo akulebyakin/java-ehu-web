@@ -8,8 +8,9 @@ public enum CommandType {
     LOGIN(new LoginCommand()),
     LOGOUT(new LogoutCommand()),
     REGISTRATION(new RegistrationCommand()),
-    REGISTERCOFFEESHOP(new RegisterCoffeeshopCommand()),
-    LISTCOFFEESHOPS(new ListCoffeeshopsCommand()),
+    REGISTER_COFFEESHOP(new RegisterCoffeeshopCommand()),
+    LIST_COFFEESHOPS(new ListCoffeeshopsCommand()),
+    UPDATE_COFFEESHOP(new UpdateCoffeeshopCommand()),
     DEFAULT(new DefaultCommand());
 
     private final Command command;

@@ -5,7 +5,7 @@
 </head>
 <body>
 <form method="post" action="${pageContext.request.contextPath}/controller">
-    <input type="hidden" name="command" value="registerCoffeeshop">
+    <input type="hidden" name="command" value="register_coffeeshop">
     Name: <br/>
     <label>
         <input type="text" name="name" placeholder="Name" required>

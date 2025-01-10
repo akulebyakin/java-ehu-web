@@ -8,7 +8,10 @@ import java.util.Optional;
 
 public interface UserDao {
     List<User> findAllUsers() throws DaoException;
+
     String findUserPassword(String login) throws DaoException;
+
     Optional<User> findUserByLogin(String login) throws DaoException;
+
     void saveUser(User user) throws DaoException;
 }

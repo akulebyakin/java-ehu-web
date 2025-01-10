@@ -6,7 +6,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Coffeeshop {
+public class CoffeeShop {
     private int id;
     private String name;
     private String address;
