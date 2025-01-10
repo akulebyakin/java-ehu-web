@@ -34,6 +34,26 @@
     </c:forEach>
 </table>
 <br />
+<h3>Delete Coffee Shop by ID</h3>
+<form action="${pageContext.request.contextPath}/controller" method="post">
+    <input type="hidden" name="command" value="delete_coffeeshop">
+    <label for="deleteId">Coffee Shop ID:</label>
+    <input type="text" id="deleteId" name="id" required>
+    <button type="submit">Delete</button>
+</form>
+<!-- Display success message -->
+<c:if test="${not empty successMessage}">
+    <div style="color: green;">
+            ${successMessage}
+    </div>
+</c:if>
+<!-- Display error message -->
+<c:if test="${not empty errorMessage}">
+    <div style="color: red;">
+    ${errorMessage}
+    </div>
+</c:if>
+<br />
 <a href="${pageContext.request.contextPath}/jsp/main.jsp">Return to Main Page</a>
 </body>
 </html>

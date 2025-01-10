@@ -58,4 +58,14 @@ public class CoffeeShopServiceImpl implements CoffeeShopService {
             throw new ServiceException("Error getting coffeeshop by id", e);
         }
     }
+
+    @Override
+    public boolean deleteCoffeeShopById(int id) throws ServiceException { // New method
+        try {
+            return coffeeShopDao.deleteCoffeeShopById(id);
+        } catch (DaoException e) {
+            log.error("Error deleting coffeeshop: {}", e.getMessage());
+            throw new ServiceException("Error deleting coffeeshop", e);
+        }
+    }
 }

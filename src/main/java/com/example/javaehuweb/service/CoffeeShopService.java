@@ -14,4 +14,6 @@ public interface CoffeeShopService {
     boolean updateCoffeeShop(CoffeeShop coffeeShop) throws ServiceException;
 
     Optional<CoffeeShop> getCoffeeShopById(int id) throws ServiceException;
+
+    boolean deleteCoffeeShopById(int id) throws ServiceException;
 }

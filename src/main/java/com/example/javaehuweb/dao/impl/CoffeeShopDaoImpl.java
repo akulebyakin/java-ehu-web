@@ -21,6 +21,7 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
     private static final String SQL_SAVE_COFFEESHOP = "INSERT INTO coffeeshop (name, address, phone, email, website, description, image, rating) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_COFFEESHOP = "UPDATE coffeeshop SET name = ?, address = ?, phone = ?, email = ?, website = ?, description = ?, image = ?, rating = ? WHERE id = ?";
     private static final String SQL_SELECT_COFFEESHOP_BY_ID = "SELECT id, name, address, phone, email, website, description, image, rating FROM coffeeshop WHERE id = ?";
+    private static final String SQL_DELETE_COFFEESHOP_BY_ID = "DELETE FROM coffeeshop WHERE id = ?"; // New SQL query
 
     @Override
     public List<CoffeeShop> findAllCoffeeShops() throws DaoException {
@@ -118,5 +119,19 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
             throw new DaoException("Error finding coffeeshop by id", e);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean deleteCoffeeShopById(int id) throws DaoException { // New method
+        log.info("Deleting coffeeshop with id: {}", id);
+        try (Connection connection = ConnectionPool.getInstance().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_COFFEESHOP_BY_ID)) {
+            preparedStatement.setInt(1, id);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            log.error("Error deleting coffeeshop: {}", e.getMessage());
+            throw new DaoException("Error deleting coffeeshop", e);
+        }
     }
 }

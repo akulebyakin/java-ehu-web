@@ -14,4 +14,6 @@ public interface CoffeeShopDao {
     boolean updateCoffeeShop(CoffeeShop coffeeshop) throws DaoException;
 
     Optional<CoffeeShop> findCoffeeShopById(int id) throws DaoException;
+
+    boolean deleteCoffeeShopById(int id) throws DaoException; // New method
 }

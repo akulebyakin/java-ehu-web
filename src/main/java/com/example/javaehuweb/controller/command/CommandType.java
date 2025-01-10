@@ -11,6 +11,7 @@ public enum CommandType {
     REGISTER_COFFEESHOP(new RegisterCoffeeshopCommand()),
     LIST_COFFEESHOPS(new ListCoffeeshopsCommand()),
     UPDATE_COFFEESHOP(new UpdateCoffeeshopCommand()),
+    DELETE_COFFEESHOP(new DeleteCoffeeshopCommand()),
     DEFAULT(new DefaultCommand());
 
     private final Command command;
