@@ -2,6 +2,21 @@
 
 EHU student Java EE project
 
+## Project Overview
+
+This project is a web application for managing a list of coffee shops. Users can register, log in, view the list of coffee shops, and log out. Admin users have additional privileges to edit any coffee shop by its ID.
+
+## Features
+
+- **User Registration**: Users can register by providing their name, email, login, and password.
+- **User Login**: Registered users can log in to the system.
+- **View Coffee Shops**: Users can view a list of coffee shops with their name, address, contact data, and rating.
+- **Admin Privileges**: Admin users can edit any coffee shop by its ID.
+- **Error Handling**: The application displays error messages for various scenarios, such as invalid login credentials or registration errors.
+- **Validation**: Registration fields are validated to ensure data integrity.
+- **Security**: Passwords are stored securely using the BCrypt hashing algorithm.
+- **Database Integration**: The application uses PostgreSQL as the database backend. Connection pooling is implemented.
+
 ## Prerequisites
 
 1. **Java**:
@@ -45,7 +60,7 @@ EHU student Java EE project
       db.username=your_username
       db.password=your_password
       db.driverClassName=org.postgresql.Driver
-      db.poolSize=10
+      db.poolSize=8
       ```
 
 3. **Initialize the Database**:
@@ -72,7 +87,7 @@ EHU student Java EE project
 ## File Structure
 
 - **`db.properties`**: Configuration file for database connection.
-- **`sql/createUsersTable.sql`**: SQL script to create necessary tables.
+- **`sql/*.sql`**: SQL scripts to create necessary tables.
 - **`src/main/java`**: Java source code for the application.
 - **`src/main/resources`**: Configuration files and resources.
 

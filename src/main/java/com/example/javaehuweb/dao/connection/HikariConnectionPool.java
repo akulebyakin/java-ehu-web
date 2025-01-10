@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
+// HikariCP connection pool is not used in the project
 public class HikariConnectionPool {
     private static final Logger log = LogManager.getLogger();
     private static final HikariDataSource dataSource;
