@@ -27,8 +27,8 @@ public class UserDaoImpl implements UserDao {
     public List<User> findAllUsers() throws DaoException {
         log.info("Getting all users from the database");
         List<User> users = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_USERS)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_USERS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 User user = new User();
@@ -41,6 +41,10 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             log.error("Error getting all users: {}", e.getMessage());
             throw new DaoException("Error getting all users", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
         return users;
     }
@@ -48,8 +52,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public String findUserPassword(String login) throws DaoException {
         log.info("Authenticating user with login: {}", login);
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_PASSWORD)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_PASSWORD)) {
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -58,6 +62,10 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             log.error("Error authenticating user: {}", e.getMessage());
             throw new DaoException("Error authenticating user", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
         return "";
     }
@@ -65,8 +73,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> findUserByLogin(String login) throws DaoException {
         log.info("Finding user with login: {}", login);
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_USER_BY_LOGIN)) {
             preparedStatement.setString(1, login);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -81,6 +89,10 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             log.error("Error finding user: {}", e.getMessage());
             throw new DaoException("Error finding user", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
         return Optional.empty();
     }
@@ -88,8 +100,8 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void saveUser(User user) throws DaoException {
         log.info("Saving user with login: {}", user.getLogin());
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_USER)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_USER)) {
             preparedStatement.setString(1, user.getName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setString(3, user.getLogin());
@@ -99,6 +111,10 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             log.error("Error saving user: {}", e.getMessage());
             throw new DaoException("Error saving user", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
     }
 }

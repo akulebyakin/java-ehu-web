@@ -27,8 +27,8 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
     public List<CoffeeShop> findAllCoffeeShops() throws DaoException {
         log.info("Getting all coffeeshops from the database");
         List<CoffeeShop> coffeeShops = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_COFFEESHOPS)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL_COFFEESHOPS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 CoffeeShop coffeeshop = CoffeeShop.builder()
@@ -47,6 +47,10 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
         } catch (SQLException e) {
             log.error("Error getting all coffeeshops: {}", e.getMessage());
             throw new DaoException("Error getting all coffeeshops", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
         return coffeeShops;
     }
@@ -54,8 +58,8 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
     @Override
     public void saveCoffeeShop(CoffeeShop coffeeshop) throws DaoException {
         log.info("Saving coffeeshop with name: {}", coffeeshop.getName());
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_COFFEESHOP)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_COFFEESHOP)) {
             preparedStatement.setString(1, coffeeshop.getName());
             preparedStatement.setString(2, coffeeshop.getAddress());
             preparedStatement.setString(3, coffeeshop.getPhone());
@@ -68,14 +72,18 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
         } catch (SQLException e) {
             log.error("Error saving coffeeshop: {}", e.getMessage());
             throw new DaoException("Error saving coffeeshop", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
     }
 
     @Override
     public boolean updateCoffeeShop(CoffeeShop coffeeshop) throws DaoException {
         log.info("Updating coffeeshop with id: {}", coffeeshop.getId());
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_COFFEESHOP)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_COFFEESHOP)) {
             preparedStatement.setString(1, coffeeshop.getName());
             preparedStatement.setString(2, coffeeshop.getAddress());
             preparedStatement.setString(3, coffeeshop.getPhone());
@@ -90,14 +98,18 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
         } catch (SQLException e) {
             log.error("Error updating coffeeshop: {}", e.getMessage());
             throw new DaoException("Error updating coffeeshop", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
     }
 
     @Override
     public Optional<CoffeeShop> findCoffeeShopById(int id) throws DaoException {
         log.info("Finding coffeeshop with id: {}", id);
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_COFFEESHOP_BY_ID)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_COFFEESHOP_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -117,6 +129,10 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
         } catch (SQLException e) {
             log.error("Error finding coffeeshop by id: {}", e.getMessage());
             throw new DaoException("Error finding coffeeshop by id", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
         return Optional.empty();
     }
@@ -124,14 +140,18 @@ public class CoffeeShopDaoImpl implements CoffeeShopDao {
     @Override
     public boolean deleteCoffeeShopById(int id) throws DaoException { // New method
         log.info("Deleting coffeeshop with id: {}", id);
-        try (Connection connection = ConnectionPool.getInstance().getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_COFFEESHOP_BY_ID)) {
+        Connection connection = ConnectionPool.getInstance().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_COFFEESHOP_BY_ID)) {
             preparedStatement.setInt(1, id);
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
             log.error("Error deleting coffeeshop: {}", e.getMessage());
             throw new DaoException("Error deleting coffeeshop", e);
+        } finally {
+            if (connection != null) {
+                ConnectionPool.getInstance().releaseConnection(connection);
+            }
         }
     }
 }
